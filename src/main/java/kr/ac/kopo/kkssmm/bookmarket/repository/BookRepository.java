@@ -5,5 +5,5 @@ import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 
 public interface BookRepository {
     List<Book> getAllBookList();
-    Book getBookById(String bookid);
+    Book getBookById(String bookId);
 }

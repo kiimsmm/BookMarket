@@ -8,12 +8,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public abstract class BookServiceImpl implements BookService {
+public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
     @Override
     public List<Book> getAllBookList() {
         return bookRepository.getAllBookList();
+    }
+
+    @Override
+    public Book getBookById(String BookId) {
+        Book book = bookRepository.getBookById(BookId);
+        return book;
     }
 }

@@ -34,7 +34,7 @@ public class BookRepositoryImpl implements BookRepository {
         book2.setAuthor("Jea Nam Woo, Gil Sik Park");
         book2.setDescription("이 책은 대학교나 IT 전문학원의 안드로이드 프로그래밍 과목 수강생을 대상으로 한다. " +
                 "기본적인 프로그래밍을 접해본 독자라면 Java 기초부터 시작하여 안드로이드 앱 개발까지 한번에 학습할 수 있도록 구성되어 있다. " +
-                "특별히 이번 9판에서는 버전업을 적용하여 JDK 17, Android 14.0(U), Android Studio Hedgehog에서 실습할 수 있다. "
+                "특별히 이번 9판에서는 버전업을 적용하여 JDK 17, Android 14.0(U), Android Studio에서 실습할 수 있다. "
                 );
         book2.setPublisher("HanBit Academy");
         book2.setCategory("IT");
