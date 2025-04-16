@@ -12,7 +12,8 @@
     <main>
         <div class="container py-4">
             <header class="pb-3 mb-4 border-bottom">
-                <a href="/BookMarket/home" class="d-flex align-items-center text-body-emphasis text-decoration-none">
+                <div class="container d-flex flex-wrap justify-content-center">
+                <a href="/BookMarket/home" class="d-flex align-items-center text-body-emphasis text-decoration-none mb-3 mb-lg-0 me-lg-auto">
                     <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                          width="32px" height="32px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
                     <g>
@@ -24,6 +25,9 @@
                     </svg>
                     <span class="fs-4">&nbsp;&nbsp; BookMarket</span>
                 </a>
+                    <a href="/BookMarket/books/IT전문서" class="nav_link">IT전문서</a>&nbsp;|&nbsp;
+                    <a href="/BookMarket/books/IT교재" class="nav_link">IT교재</a>
+                </div>
             </header>
 
             <div class="p-5 mb-4 bg-body-tertiary rounded-3">
@@ -39,7 +43,7 @@
                     <p th:text="${book.getAuthor()}"></p>
                     <p th:text="${book.getPublisher() + ' | ' + book.getReleaseDate()}"></p>
                     <p th:text="${book.getDescription()}" align="left"></p>
-                    <p th:text="${book.getUnitPrice()} + '원'"></p>
+                    <p th:text="|${book.getUnitPrice()}원|"></p>
                     <p><a th:href="'/BookMarket/books/book?id='+${book.getBookID()}" class="btn btn-secondary" role="button">상세정보 &raquo;</a></p>
                 </div>
             </div>

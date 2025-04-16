@@ -22,7 +22,7 @@ public class BookRepositoryImpl implements BookRepository {
                 "그리고 단계별 실습을 따라 하다 보면 도서 쇼핑몰 구축 프로젝트를 완성할 수 있다. "
                 );
         book1.setPublisher("GilBut Campus");
-        book1.setCategory("IT");
+        book1.setCategory("IT교재");
         book1.setUnitsInStock(1000);
         book1.setReleaseDate("2024/12/31");
         book1.setCondition("신규도서");
@@ -37,7 +37,7 @@ public class BookRepositoryImpl implements BookRepository {
                 "특별히 이번 9판에서는 버전업을 적용하여 JDK 17, Android 14.0(U), Android Studio에서 실습할 수 있다. "
                 );
         book2.setPublisher("HanBit Academy");
-        book2.setCategory("IT");
+        book2.setCategory("IT교재");
         book2.setUnitsInStock(1000);
         book2.setReleaseDate("2024/01/19");
         book2.setCondition("신규도서");
@@ -51,7 +51,7 @@ public class BookRepositoryImpl implements BookRepository {
                 "구글 머신러닝 전문가(Google ML expert)로 활동하고 있는 저자는 여러 차례의 입문자들과 함께한 머신러닝&딥러닝 스터디와 번역·집필 경험을 통해 ‘무엇을’ ‘어떻게’ 학습해야 할지 모르는 입문자의 막연함을 이해하고, 과외 선생님이 알려주듯 친절하게 핵심적인 내용을 콕콕 집어준다. "
                 );
         book3.setPublisher("HanBit Media");
-        book3.setCategory("IT");
+        book3.setCategory("IT전문서");
         book3.setUnitsInStock(1000);
         book3.setReleaseDate("2020/12/21");
         book3.setCondition("신규도서");
@@ -80,5 +80,16 @@ public class BookRepositoryImpl implements BookRepository {
             throw new IllegalArgumentException("도서번호가 " + bookId + "인 해당 도서를 찾을 수 없습니다");
         }
         return bookInfo;
+    }
+
+    @Override
+    public List<Book> getBookByCategory(String category) {
+        List<Book> booksofCategory = new ArrayList<>();
+        for (Book book : listOfBooks) {
+            if (book.getCategory()!=null && book.getCategory().equals(category)) {
+                booksofCategory.add(book);
+            }
+        }
+        return booksofCategory;
     }
 }

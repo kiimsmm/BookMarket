@@ -9,4 +9,5 @@ import java.util.List;
 public interface BookService {
     List<Book> getAllBookList();
     Book getBookById(String BookId);
+    List<Book> getBookByCategory(String category);
 }
