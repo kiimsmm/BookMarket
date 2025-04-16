@@ -8,6 +8,6 @@ import java.util.List;
 @Service
 public interface BookService {
     List<Book> getAllBookList();
-    Book getBookById(String BookId);
-    List<Book> getBookByCategory(String category);
+    Book getBookById(String bookId);
+    List<Book> getBookListByCategory(String category);
 }
