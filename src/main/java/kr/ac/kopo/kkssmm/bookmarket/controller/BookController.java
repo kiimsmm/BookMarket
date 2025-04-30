@@ -5,12 +5,12 @@ import kr.ac.kopo.kkssmm.bookmarket.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -40,4 +40,12 @@ public class BookController {
         model.addAttribute("book", book);
         return "book";
     }
+
+    @GetMapping("/filter/{bookFilter}")
+    public String requestBookListByFilter(@MatrixVariable(pathVar = "bookFilter")Map<String, List<String>> bookFilter, Model model) {
+        Set<Book> bookByFilter = bookService.getBookListByFilter(bookFilter);
+        model.addAttribute("bookList", bookByFilter);
+        return "books";
+    }
+
 }
