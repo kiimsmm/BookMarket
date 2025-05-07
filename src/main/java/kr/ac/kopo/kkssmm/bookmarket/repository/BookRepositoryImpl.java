@@ -25,6 +25,7 @@ public class BookRepositoryImpl implements BookRepository {
         book1.setUnitsInStock(1000);
         book1.setReleaseDate("2024/12/31");
         book1.setCondition("신규도서");
+        book1.setFileName("isbn0001.jpg");
 
         Book book2 = new Book();
         book2.setBookID("isbn0002");
@@ -40,6 +41,7 @@ public class BookRepositoryImpl implements BookRepository {
         book2.setUnitsInStock(1000);
         book2.setReleaseDate("2024/01/19");
         book2.setCondition("신규도서");
+        book2.setFileName("isbn0002.jpg");
 
         Book book3 = new Book();
         book3.setBookID("isbn0003");
@@ -47,13 +49,15 @@ public class BookRepositoryImpl implements BookRepository {
         book3.setUnitPrice(BigDecimal.valueOf(25000));
         book3.setAuthor("Hea Sun Park");
         book3.setDescription("이 책은 수식과 이론으로 중무장한 머신러닝, 딥러닝 책에 지친 ‘독학하는 입문자’가 ‘꼭 필요한 내용을 제대로’ 학습할 수 있도록 구성했다. " +
-                "구글 머신러닝 전문가(Google ML expert)로 활동하고 있는 저자는 여러 차례의 입문자들과 함께한 머신러닝&딥러닝 스터디와 번역·집필 경험을 통해 ‘무엇을’ ‘어떻게’ 학습해야 할지 모르는 입문자의 막연함을 이해하고, 과외 선생님이 알려주듯 친절하게 핵심적인 내용을 콕콕 집어준다. "
+                "구글 머신러닝 전문가(Google ML expert)로 활동하고 있는 저자는 여러 차례의 입문자들과 함께한 머신러닝&딥러닝 스터디와 번역·집필 경험을 통해 " +
+                "‘무엇을’ ‘어떻게’ 학습해야 할지 모르는 입문자의 막연함을 이해하고, 과외 선생님이 알려주듯 친절하게 핵심적인 내용을 콕콕 집어준다. "
                 );
         book3.setPublisher("HanBitAcademy");
         book3.setCategory("IT전문서");
         book3.setUnitsInStock(1000);
         book3.setReleaseDate("2020/12/21");
         book3.setCondition("신규도서");
+        book3.setFileName("isbn0003.jpg");
 
         listOfBooks.add(book1);
         listOfBooks.add(book2);

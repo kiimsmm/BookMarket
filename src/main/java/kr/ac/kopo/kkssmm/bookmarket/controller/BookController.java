@@ -1,14 +1,22 @@
 package kr.ac.kopo.kkssmm.bookmarket.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 import kr.ac.kopo.kkssmm.bookmarket.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +26,9 @@ import java.util.Set;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    @Value("${file.uploadDir}")
+    private String fileDir;
 
     @GetMapping
     public String requestBookList(Model model) {
@@ -56,6 +67,19 @@ public class BookController {
 
     @PostMapping("/add")
     public String requestSubmitNewBook(@ModelAttribute("book") Book book) {
+        MultipartFile multipartFile = book.getBookImage();
+        String saveName = multipartFile.getOriginalFilename();
+        File saveFile = new File(fileDir + saveName);
+        MultipartFile bookImage = null;
+        if (bookImage != null && !bookImage.isEmpty()) {
+            try {
+                bookImage.transferTo(saveFile);
+            } catch (IOException e){
+                throw new RuntimeException("도서 이미지가 업로드가 되지 않았습니다.");
+            }
+        }
+        book.setFileName(saveName);
+
         bookService.setNewBook(book);
         return "redirect:/books";
     }
@@ -65,9 +89,22 @@ public class BookController {
         model.addAttribute("addTitle", "신규 도서 등록");
     }
 
+    @GetMapping("/download")
+    public void downloadBookImage(@RequestParam("fileName") String paramKey, HttpServletResponse response) throws IOException {
+        File imageFile = new File(fileDir + paramKey);
+        response.setContentType("application/download");
+        response.setHeader("Content-Disposition","attachment; filename=\"" + paramKey + "\"");
+        response.setContentLength((int) imageFile.length());
+        OutputStream os = response.getOutputStream();
+        FileInputStream fis = new FileInputStream(imageFile);
+        FileCopyUtils.copy(fis, os);
+        fis.close();
+        os.close();
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setAllowedFields("bookId", "name", "author", "unitPrice", "description",
-                    "publisher", "category", "unitsInStock", "releaseDate", "condition");
+        binder.setAllowedFields("bookID", "name", "author", "unitPrice", "description",
+                    "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage");
     }
 }
