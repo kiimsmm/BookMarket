@@ -34,6 +34,11 @@
             </div>
 
             <div class="row align-items-md-stretch">
+                <div class="text-end" style="padding-right: 30px">
+                    <form action="/BookMarket/logout" method="post">
+                        <input type="submit" class="btn btn-sm btn-success" value="Sign Out">
+                    </form>
+                </div>
                 <form action="/BookMarket/books/add" method="post" enctype="multipart/form-data" th:object="${book}">
                     <legend th:text="${addTitle}"></legend>
                     <div class="mb-3 row">
