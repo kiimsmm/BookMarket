@@ -6,7 +6,6 @@ public class bookIdException extends RuntimeException{
         super();
         this.bookId = bookId;
     }
-
     public String getBookId() {
         return bookId;
     }

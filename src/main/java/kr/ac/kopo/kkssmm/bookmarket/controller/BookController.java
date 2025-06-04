@@ -69,7 +69,7 @@ public class BookController {
     public String requestBookListByCategory(@PathVariable("category")String category, Model model) {
         List<Book> bookByCategory = bookService.getBooksByCategory(category);
         if (bookByCategory != null || bookByCategory.isEmpty()) {
-            throw new categoryException();
+            throw new categoryException(category);
         }
         model.addAttribute("bookList", bookByCategory);
         return "books";

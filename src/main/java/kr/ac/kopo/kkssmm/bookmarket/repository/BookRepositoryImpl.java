@@ -89,13 +89,13 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> getBookListByCategory(String category) {
-        List<Book> booksofCategory = new ArrayList<>();
+        List<Book> booksOfCategory = new ArrayList<>();
         for (Book book : listOfBooks) {
             if (book.getCategory()!=null && book.getCategory().equals(category)) {
-                booksofCategory.add(book);
+                booksOfCategory.add(book);
             }
         }
-        return booksofCategory;
+        return booksOfCategory;
     }
 
     @Override
