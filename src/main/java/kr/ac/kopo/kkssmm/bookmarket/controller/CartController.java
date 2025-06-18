@@ -54,16 +54,24 @@ public class CartController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void addCartByNewItem(@PathVariable("bookID") String bookId, HttpServletRequest request) {
         String sessionId = request.getSession(true).getId();
-        Cart cart = cartService.read(bookId);
+
+        Cart cart = cartService.read(sessionId); // bookId → sessionId로 수정
 
         if (cart == null) {
-            cart = cartService.create(new Cart(sessionId));
+            try {
+                cart = cartService.create(new Cart(sessionId));
+            } catch (IllegalArgumentException e) {
+                // 이미 존재하면 무시하거나 로그만 출력 (필요에 따라 로직 선택)
+                System.out.println("Cart already exists: " + sessionId);
+                cart = cartService.read(sessionId); // 다시 읽기 시도
+            }
         }
 
         Book book = bookService.getBookById(bookId);
         if (book == null) {
             throw new IllegalArgumentException(new bookIdException(bookId));
         }
+
         cart.addCartItem(new cartItem(book));
         cartService.update(sessionId, cart);
     }
@@ -72,7 +80,7 @@ public class CartController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeCartByNewItem(@PathVariable("bookID") String bookId, HttpServletRequest request) {
         String sessionId = request.getSession(true).getId();
-        Cart cart = cartService.read(bookId);
+        Cart cart = cartService.read(sessionId);
 
         if (cart == null) {
             cart = cartService.create(new Cart(sessionId));
@@ -84,5 +92,11 @@ public class CartController {
         }
         cart.removeCartItem(new cartItem(book));
         cartService.update(sessionId, cart);
+    }
+
+    @DeleteMapping("/{cartId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void removeCart(@PathVariable(value = "cartId") String cartId) {
+        cartService.delete(cartId);
     }
 }

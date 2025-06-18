@@ -56,7 +56,7 @@
                     <p>
                     <form name="addForm" id="addForm" method="post">
                         <input type="hidden" name="_method" value="put"/>
-                        <a th:href="'javascript:addToCart(\''+ ${book.getBookId()} +'\')" class="btn btn-primary">도서 주문 &raquo;</a>
+                        <a th:href="'javascript:addToCart(\''+ ${book.getBookID()} +'\')'" class="btn btn-primary">도서 주문 &raquo;</a>
                         <a href="/BookMarket/cart" class="btn btn-warning" role="button">장바구니 &raquo;</a>
                         <a href="/BookMarket/books" class="btn btn-secondary" role="button">도서목록 &raquo;</a>
                     </form>

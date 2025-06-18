@@ -36,7 +36,11 @@
 
             <div class="row align-items-md-stretch">
                 <div class="col-md-12">
-                    <a href="#" class="btn btn-success text-right" style="float:right">주문하기</a>
+                    <form name="deleteForm" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <a th:href="'javascript:deleteCart()'" class="btn btn-danger" style="float:left">삭제하기</a>
+                        <a href="#" class="btn btn-success text-right" style="float:right">주문하기</a>
+                    </form>
                 </div>
                 <div style="padding-top: 50px">
                     <table class="table table-hover">
@@ -50,14 +54,18 @@
                         </tr>
                         <form name="removeForm" method="post">
                             <input type="hidden" name="_method" value="delete"/>
-                        <div th:if="${cart != null}">
-                            <div th:each="cart : ${cart.cartItems}">
+                        <<div th:if="${cart != null}">
+                            <div th:each="item : ${cart.cartItems.values()}">
                                 <tr>
-                                    <td th:text="${cartItems.value.book.bookID} + ' - ' + ${cartItems.value.book.name}"></td>
-                                    <td th:text="${cartItems.value.book.unitPrice}"></td>
-                                    <td th:text="${cartItems.value.book.qauntity}"></td>
-                                    <td th:text="${cartItems.value.book.totalPrice}"></td>
-                                    <td><a th:href="'javascript:removeFromCart(\''+ ${cartItems.value.book.bookID} +'\', \''+ ${cartId} +'\')"><span class="badge text-bg-danger">삭제</span></a></td>
+                                    <td th:text="${item.book.bookID} + ' - ' + ${item.book.name}"></td>
+                                    <td th:text="${item.book.unitPrice}"></td>
+                                    <td th:text="${item.quantity}"></td>
+                                    <td th:text="${item.totalPrice}"></td>
+                                    <td>
+                                        <a th:href="'javascript:removeFromCart(\'' + ${item.book.bookID} + '\', \'' + ${cart.cartId} + '\')'">
+                                            <span class="badge text-bg-danger">삭제</span>
+                                        </a>
+                                    </td>
                                 </tr>
                             </div>
                         </div>
