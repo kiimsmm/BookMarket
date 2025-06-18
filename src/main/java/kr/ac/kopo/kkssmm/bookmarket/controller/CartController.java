@@ -50,9 +50,9 @@ public class CartController {
         return cartService.read(cartId);
     }
 
-    @PutMapping("/book/{bookId}")
+    @PutMapping("/book/{bookID}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void addCartByNewItem(@PathVariable("bookId") String bookId, HttpServletRequest request) {
+    public void addCartByNewItem(@PathVariable("bookID") String bookId, HttpServletRequest request) {
         String sessionId = request.getSession(true).getId();
         Cart cart = cartService.read(bookId);
 
@@ -65,6 +65,24 @@ public class CartController {
             throw new IllegalArgumentException(new bookIdException(bookId));
         }
         cart.addCartItem(new cartItem(book));
+        cartService.update(sessionId, cart);
+    }
+
+    @DeleteMapping("/book/{bookID}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void removeCartByNewItem(@PathVariable("bookID") String bookId, HttpServletRequest request) {
+        String sessionId = request.getSession(true).getId();
+        Cart cart = cartService.read(bookId);
+
+        if (cart == null) {
+            cart = cartService.create(new Cart(sessionId));
+        }
+
+        Book book = bookService.getBookById(bookId);
+        if (book == null) {
+            throw new IllegalArgumentException(new bookIdException(bookId));
+        }
+        cart.removeCartItem(new cartItem(book));
         cartService.update(sessionId, cart);
     }
 }

@@ -44,4 +44,10 @@ public class Cart {
             grandTotal = grandTotal.add(cartItem.getTotalPrice());
         }
     }
+
+    public void removeCartItem(cartItem item){
+        String bookId = item.getBook().getBookID();
+        cartItems.remove(bookId);
+        updateGrandTotal();
+    }
 }
