@@ -51,7 +51,6 @@
                             <div th:each="cart : ${cart.cartItems}">
                                 <tr>
                                     <td th:text="${cartItems.value.book.bookID} + ' - ' + ${cartItems.value.book.name}"></td>
-                                    <td th:text="${cartItems.value.book.bookID} + ' - ' + ${cartItems.value.book.name}"></td>
                                     <td th:text="${cartItems.value.book.unitPrice}"></td>
                                     <td th:text="${cartItems.value.book.qauntity}"></td>
                                     <td th:text="${cartItems.value.book.totalPrice}"></td>

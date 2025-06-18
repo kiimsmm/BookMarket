@@ -2,9 +2,14 @@ package kr.ac.kopo.kkssmm.bookmarket.controller;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Cart;
+import kr.ac.kopo.kkssmm.bookmarket.domain.cartItem;
+import kr.ac.kopo.kkssmm.bookmarket.exception.bookIdException;
+import kr.ac.kopo.kkssmm.bookmarket.service.BookService;
 import kr.ac.kopo.kkssmm.bookmarket.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private BookService bookService;
 
     @GetMapping
     public String requestCartId(HttpServletRequest request, Model model) {
@@ -40,5 +48,23 @@ public class CartController {
     public @ResponseBody Cart read(@PathVariable(value = "cartId") String cartId) {
         System.out.println("Call requestCartList()");
         return cartService.read(cartId);
+    }
+
+    @PutMapping("/book/{bookId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void addCartByNewItem(@PathVariable("bookId") String bookId, HttpServletRequest request) {
+        String sessionId = request.getSession(true).getId();
+        Cart cart = cartService.read(bookId);
+
+        if (cart == null) {
+            cart = cartService.create(new Cart(sessionId));
+        }
+
+        Book book = bookService.getBookById(bookId);
+        if (book == null) {
+            throw new IllegalArgumentException(new bookIdException(bookId));
+        }
+        cart.addCartItem(new cartItem(book));
+        cartService.update(sessionId, cart);
     }
 }

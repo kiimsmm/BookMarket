@@ -27,4 +27,12 @@ public class CartRepositoryImpl implements CartRepository {
     public Cart read(String cartId) {
         return listOfCarts.get(cartId);
     }
+
+    @Override
+    public void update(String cartId, Cart cart) {
+        if (!listOfCarts.containsKey(cartId)){
+            throw new IllegalArgumentException("Cart("+cartId+") does not exist");
+        }
+        listOfCarts.put(cartId, cart);
+    }
 }
