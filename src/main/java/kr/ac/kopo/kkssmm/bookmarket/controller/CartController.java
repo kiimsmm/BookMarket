@@ -1,7 +1,7 @@
 package kr.ac.kopo.kkssmm.bookmarket.controller;
 
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Cart;
 import kr.ac.kopo.kkssmm.bookmarket.domain.cartItem;

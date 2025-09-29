@@ -1,7 +1,7 @@
 package kr.ac.kopo.kkssmm.bookmarket.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 import kr.ac.kopo.kkssmm.bookmarket.exception.bookIdException;
@@ -33,9 +33,8 @@ import java.util.Set;
 public class BookController {
     @Autowired
     private BookService bookService;
-
-//    @Autowired
-//    private UnitsInStockValidator unitsInStockValidator;
+    @Autowired
+    private UnitsInStockValidator unitsInStockValidator;
     @Autowired
     private BookValidator booksValidator;
 
