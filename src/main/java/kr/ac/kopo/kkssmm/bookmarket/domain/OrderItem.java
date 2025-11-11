@@ -17,4 +17,8 @@ public class OrderItem {
     private String bookId;
     private String quantity;
     private BigDecimal totalPrice;
+
+    public void setQuantity(int quantity) {
+        this.quantity = String.valueOf(quantity);
+    }
 }

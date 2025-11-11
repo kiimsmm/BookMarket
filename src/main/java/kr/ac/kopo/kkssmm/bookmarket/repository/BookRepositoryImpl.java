@@ -13,7 +13,7 @@ public class BookRepositoryImpl implements BookRepository {
 
     public BookRepositoryImpl() {
         Book book1 = new Book();
-        book1.setBookID("isbn0001");
+        book1.setBookId("isbn0001");
         book1.setName("Complete Conquest of Spring Boot");
         book1.setUnitPrice(BigDecimal.valueOf(35000));
         book1.setAuthor("Mi Young Song");
@@ -29,7 +29,7 @@ public class BookRepositoryImpl implements BookRepository {
         book1.setFileName("isbn0001.jpg");
 
         Book book2 = new Book();
-        book2.setBookID("isbn0002");
+        book2.setBookId("isbn0002");
         book2.setName("Android Programming Using Android Studio");
         book2.setUnitPrice(BigDecimal.valueOf(34000));
         book2.setAuthor("Jea Nam Woo, Gil Sik Park");
@@ -45,7 +45,7 @@ public class BookRepositoryImpl implements BookRepository {
         book2.setFileName("isbn0002.jpg");
 
         Book book3 = new Book();
-        book3.setBookID("isbn0003");
+        book3.setBookId("isbn0003");
         book3.setName("Machine Learning + Deep Learning by Self");
         book3.setUnitPrice(BigDecimal.valueOf(25000));
         book3.setAuthor("Hea Sun Park");
@@ -75,7 +75,7 @@ public class BookRepositoryImpl implements BookRepository {
     public Book getBookById(String bookId) {
         Book bookInfo = null;
         for (Book book : listOfBooks) {
-            if (book != null && book.getBookID() != null && book.getBookID().equals(bookId)) {
+            if (book != null && book.getBookId() != null && book.getBookId().equals(bookId)) {
                 bookInfo = book;
                 break;
             }

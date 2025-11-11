@@ -1,0 +1,35 @@
+<header th:fragment="header" class="pb-3 mb-4 border-bottom" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <div class="container d-flex flex-wrap justify-content-center">
+        <a href="/BookMarket/home" class="d-flex align-items-center text-body-emphasis text-decoration-none mb-3 mb-lg-0 me-lg-auto">
+            <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                 width="32px" height="32px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+                <g>
+                    <path fill="#231F20" d="M1.59,0.805C0.59,1.562,0,2.746,0,4v48c0,1.785,1.184,3.355,2.902,3.848L28,64V8L5.098,0.152
+                            C3.895-0.188,2.594,0.051,1.59,0.805z"/>
+                    <path fill="#231F20" d="M62.41,0.805c-1.004-0.754-2.309-0.992-3.508-0.652L36,8v56l25.098-8.152C62.816,55.355,64,53.785,64,52V4
+                            C64,2.746,63.41,1.562,62.41,0.805z"/>
+                </g>
+            </svg>
+            <span class="fs-4">&nbsp;&nbsp; BookMarket</span>
+        </a>
+        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">도서목록</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/BookMarket/books">전체도서</a></li>
+                <li><a class="dropdown-item" href="/BookMarket/books/IT전문서">IT전문서</a></li>
+                <li><a class="dropdown-item" href="/BookMarket/books/IT교육교재">IT교육교재</a></li>
+            </ul>
+            &nbsp;|&nbsp;
+        <a sec:authorize="hasRole('ROLE_ADMIN')" href="/BookMarket/books/add" class="nav-link">도서등록  &nbsp;|&nbsp;</a>
+        <a sec:authorize="isAuthenticated()" href="/BookMarket/books/cart" class="nav-link">장바구니  &nbsp;|&nbsp;</a>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" href="/BookMarket/books/list" class="nav-link">주문목록  &nbsp;|&nbsp;</a>
+        <a href="/BookMarket/board/list" class="nav-link">게시판  &nbsp;|&nbsp;</a>
+        <a sec:authorize="isAnonymous()" href="/BookMarket/members/add" class="nav-link">회원가입  &nbsp;|&nbsp;</a>
+        <a sec:authorize="isAnonymous()" href="/BookMarket/login" class="nav-link">로그인  &nbsp;|&nbsp;</a>
+        <a sec:authorize="isAuthenticated()" th:href="'/BookMarket/members/update/' + ${session.userLoginInfo.memberId}" class="nav-link">회원수정  &nbsp;|&nbsp;</a>
+        <a sec:authorize="isAuthenticated()" href="/BookMarket/logout" class="nav-link">로그아웃  &nbsp;|&nbsp;</a>
+        <b sec:authorize="isAuthenticated()"><span sec:authentication="name"></span>님</b>
+    </div>
+</header>
+
+<script src="/BookMarket/static/js/bootstrap.bundle.min.js">
+</script>

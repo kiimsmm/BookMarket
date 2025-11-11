@@ -45,6 +45,8 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/books/add")
+                        .defaultSuccessUrl("/order/list")
+                        .defaultSuccessUrl("/")
                         .failureUrl("/loginFailed")
                         .usernameParameter("username")
                         .passwordParameter("password")

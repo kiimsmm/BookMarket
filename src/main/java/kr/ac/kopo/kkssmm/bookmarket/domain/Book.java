@@ -1,21 +1,15 @@
 package kr.ac.kopo.kkssmm.bookmarket.domain;
 
 import jakarta.validation.constraints.*;
-import kr.ac.kopo.kkssmm.bookmarket.validator.BookID;
+import kr.ac.kopo.kkssmm.bookmarket.validator.bookId;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
 @Data
-//@Getter
-//@Setter
-//@NoArgsConstructor
 public class Book {
-    @BookID
+    @bookId
     @Pattern(regexp = "isbn[0-9]+", message = "{Pattern.book.bookID}" )
     private String bookID; // 도서번호
     @Size(min = 4, max = 50, message = "{Size.book.name}")
@@ -33,4 +27,12 @@ public class Book {
     private String condition; // 신규도서 or 중고도서 or 전자책
     private String fileName; // 도서 이미지 파일
     private MultipartFile bookImage; // 업로드 된 도서 이미지 파일
+
+    public String getBookId() {
+        return bookID;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookID = bookId;
+    }
 }

@@ -6,20 +6,20 @@ import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 import kr.ac.kopo.kkssmm.bookmarket.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class BookIDValidator implements ConstraintValidator<BookID, String> {
+public class BookIDValidator implements ConstraintValidator<bookId, String> {
     @Autowired
     private BookService bookService;
 
     @Override
-    public void initialize(BookID constraintAnnotation) {
+    public void initialize(bookId constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
-    public boolean isValid(String bookID, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(String bookId, ConstraintValidatorContext constraintValidatorContext) {
         Book book = null;
         try{
-            book = bookService.getBookById(bookID);
+            book = bookService.getBookById(bookId);
         } catch (RuntimeException e) {
             return true;
         }

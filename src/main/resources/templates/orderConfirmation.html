@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 확인 정보</title>
+    <link href="/BookMarket/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-4">
+    <th:block th:replace="~{/module/header}"></th:block>
+
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">주문 확인 정보</h1>
+            <p class="col-md-8 fs-4">BookMarket</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center"> <form th:object="${order}" action="/BookMarket/order/orderConfirmation" method="post">
+
+        <div class="container py-4" style="background: #fafafe; max-width: 800px; border: 1px solid #ddd; border-radius: 5px;">
+            <div class="text-center mb-4">
+                <h1>영수증</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 py-3 border-end">
+                    <p class="h5"><b>배송 주소</b></p>
+                    <p class="mb-1">성명: [[${order.shipping.name}]]</p>
+                    <p class="mb-1">우편번호: [[${order.shipping.address.zipcode}]]</p>
+                    <p class="mb-1">주소: [[${order.shipping.address.addressName}]] [[${order.shipping.address.detailName}]] ([[${order.shipping.address.country}]])</p>
+                </div>
+                <div class="col-md-6 py-3">
+                    <p class="h5"><b>청구 주소</b></p>
+                    <p class="mb-1">성명: [[${order.customer.name}]]</p>
+                    <p class="mb-1">주소: [[${order.customer.address.addressName}]] [[${order.customer.address.detailName}]]</p>
+                    <p class="mb-1">Mobile: [[${order.customer.phone}]]</p>
+                    <p class="mt-3"><em>배송일: [[${order.shipping.date}]]</em></p>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                        <tr>
+                            <th>도서</th>
+                            <th class="text-center">수량</th>
+                            <th class="text-right">가격</th>
+                            <th class="text-right">소계</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="itemEntry : ${order.orderItems}">
+                            <td th:with="item=${itemEntry.value}">
+                                <span th:text="${item.bookId} + ' - ' + ${bookList.?[bookId == item.bookId][0].name}">도서명</span>
+                            </td>
+                            <td class="text-center" th:text="${itemEntry.value.quantity}">1</td>
+                            <td class="text-right" th:text="${#numbers.formatCurrency(bookList.?[bookId == item.bookId][0].unitPrice)} + '원'">10000원</td>
+                            <td class="text-right" th:text="${#numbers.formatCurrency(itemEntry.value.totalPrice)} + '원'">10000원</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" class="text-right"><h5><b>총액: </b></h5></td>
+                            <td class="text-right text-danger"><h4><b>[[${#numbers.formatCurrency(order.grandTotal)}]]원</b></h4></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12 text-center">
+                    <a href="/BookMarket/order/orderShippingInfo" class="btn btn-secondary" role="button">이전</a>
+                    <button type="submit" class="btn btn-success">주문완료</button>
+                    <a href="/BookMarket/order/orderCancelled" class="btn btn-secondary" role="button">취소</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <th:block th:replace="~{/module/footer}"></th:block>
+</div>
+</body>
+</html>

@@ -1,10 +1,10 @@
 package kr.ac.kopo.kkssmm.bookmarket.controller;
 
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Cart;
-import kr.ac.kopo.kkssmm.bookmarket.domain.cartItem;
+import kr.ac.kopo.kkssmm.bookmarket.domain.CartItem;
 import kr.ac.kopo.kkssmm.bookmarket.exception.bookIdException;
 import kr.ac.kopo.kkssmm.bookmarket.service.BookService;
 import kr.ac.kopo.kkssmm.bookmarket.service.CartService;
@@ -38,9 +38,21 @@ public class CartController {
 
     @GetMapping("/{cartId}")
     public String requestCartList(@PathVariable String cartId, Model model) {
-        System.out.println("Call requestCartList()");
+        // 1. 카트 읽기 시도
         Cart cart = cartService.read(cartId);
+
+        // 2. 카트가 없으면 새로 생성 및 저장
+        if (cart == null) {
+            System.out.println("Cart not found for ID: " + cartId + ". Creating new cart.");
+            cart = new Cart(cartId);
+            cartService.create(cart);
+        }
+
         model.addAttribute("cart", cart);
+        // 참고: cart.html에서 cartId 변수를 사용하므로,
+        // model.addAttribute("cartId", cartId); 를 추가하거나 cart 객체에서 바로 꺼내 써도 됩니다.
+        model.addAttribute("cartId", cartId);
+
         return "cart";
     }
 
@@ -50,9 +62,9 @@ public class CartController {
         return cartService.read(cartId);
     }
 
-    @PutMapping("/book/{bookID}")
+    @PutMapping("/book/{bookId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void addCartByNewItem(@PathVariable("bookID") String bookId, HttpServletRequest request) {
+    public void addCartByNewItem(@PathVariable("bookId") String bookId, HttpServletRequest request) {
         String sessionId = request.getSession(true).getId();
 
         Cart cart = cartService.read(sessionId); // bookId → sessionId로 수정
@@ -72,13 +84,13 @@ public class CartController {
             throw new IllegalArgumentException(new bookIdException(bookId));
         }
 
-        cart.addCartItem(new cartItem(book));
+        cart.addCartItem(new CartItem(book));
         cartService.update(sessionId, cart);
     }
 
-    @DeleteMapping("/book/{bookID}")
+    @DeleteMapping("/book/{bookId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void removeCartByNewItem(@PathVariable("bookID") String bookId, HttpServletRequest request) {
+    public void removeCartByNewItem(@PathVariable("bookId") String bookId, HttpServletRequest request) {
         String sessionId = request.getSession(true).getId();
         Cart cart = cartService.read(sessionId);
 
@@ -90,7 +102,7 @@ public class CartController {
         if (book == null) {
             throw new IllegalArgumentException(new bookIdException(bookId));
         }
-        cart.removeCartItem(new cartItem(book));
+        cart.removeCartItem(new CartItem(book));
         cartService.update(sessionId, cart);
     }
 

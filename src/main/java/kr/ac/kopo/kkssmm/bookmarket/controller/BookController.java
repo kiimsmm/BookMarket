@@ -1,7 +1,7 @@
 package kr.ac.kopo.kkssmm.bookmarket.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.ac.kopo.kkssmm.bookmarket.domain.Book;
 import kr.ac.kopo.kkssmm.bookmarket.exception.bookIdException;
@@ -67,9 +67,12 @@ public class BookController {
     @GetMapping("/{category}")
     public String requestBookListByCategory(@PathVariable("category")String category, Model model) {
         List<Book> bookByCategory = bookService.getBooksByCategory(category);
-        if (bookByCategory != null || bookByCategory.isEmpty()) {
+
+        // List가 null이거나 또는 비어있다면 예외 발생
+        if (bookByCategory == null || bookByCategory.isEmpty()) {
             throw new categoryException(category);
         }
+
         model.addAttribute("bookList", bookByCategory);
         return "books";
     }
@@ -92,11 +95,11 @@ public class BookController {
         if (bindingResult.hasErrors()) {
             return "addbook";
         }
-        MultipartFile multipartFile = book.getBookImage();
-        String saveName = multipartFile.getOriginalFilename();
+        MultipartFile bookImage = book.getBookImage(); // 변수 통일
+        String saveName = bookImage.getOriginalFilename();
         File saveFile = new File(fileDir + saveName);
-        MultipartFile bookImage = null;
-        if (bookImage != null && !bookImage.isEmpty()) {
+
+        if (bookImage != null && !bookImage.isEmpty()) { // multipartFile 대신 bookImage 사용
             try {
                 bookImage.transferTo(saveFile);
             } catch (IOException e){

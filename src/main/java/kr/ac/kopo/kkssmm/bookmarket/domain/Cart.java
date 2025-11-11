@@ -10,13 +10,15 @@ import java.util.Map;
 @Data
 @ToString
 public class Cart {
+
     private String cartId;
-    private Map<String, cartItem> cartItems;
+    private Map<String,CartItem> cartItems;
     private BigDecimal grandTotal;
 
-    public Cart(){
-        cartItems = new HashMap<String, cartItem>();
-        grandTotal = new BigDecimal(0); // BigDecimal.ZERO;
+
+    public Cart() {
+        cartItems = new HashMap<String, CartItem>();
+        grandTotal = new BigDecimal(0);
     }
 
     public Cart(String cartId) {
@@ -24,12 +26,12 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public void addCartItem(cartItem item){
-        String bookId = item.getBook().getBookID();
+    public void addCartItem(CartItem item) {
+        String bookId = item.getBook().getBookId();
 
-        if(cartItems.containsKey(bookId)){
-            cartItem cartItem = cartItems.get(bookId);
-            cartItem.setQuantity(cartItem.getQuantity() + item.getQuantity());
+        if(cartItems.containsKey(bookId)) {
+            CartItem cartItem = cartItems.get(bookId);
+            cartItem.setQuantity(cartItem.getQuantity()+item.getQuantity());
             cartItems.put(bookId, cartItem);
         } else {
             cartItems.put(bookId, item);
@@ -37,17 +39,16 @@ public class Cart {
         updateGrandTotal();
     }
 
-    /* 주문 총액을 업데이트 */
-    public void updateGrandTotal(){
-        grandTotal = new BigDecimal(0);
-        for(cartItem cartItem : cartItems.values()){
-            grandTotal = grandTotal.add(cartItem.getTotalPrice());
-        }
-    }
-
-    public void removeCartItem(cartItem item){
-        String bookId = item.getBook().getBookID();
+    public void removeCartItem(CartItem item) {
+        String bookId = item.getBook().getBookId();
         cartItems.remove(bookId);
         updateGrandTotal();
+    }
+
+    public void updateGrandTotal() {
+        grandTotal= new BigDecimal(0);
+        for(CartItem item : cartItems.values()){
+            grandTotal = grandTotal.add(item.getTotalPrice());
+        }
     }
 }
