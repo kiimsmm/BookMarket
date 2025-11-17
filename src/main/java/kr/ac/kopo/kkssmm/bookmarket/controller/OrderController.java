@@ -18,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/order")
@@ -46,13 +49,9 @@ public class OrderController {
         listofBooks = new ArrayList<Book>();
 
         for (CartItem item : cart.getCartItems().values()) {
-
             OrderItem orderItem = new OrderItem();
-
             Book book = item.getBook();
-
             listofBooks.add(book);
-
             orderItem.setBookId(book.getBookId());
             orderItem.setQuantity(item.getQuantity());
             orderItem.setTotalPrice(item.getTotalPrice());
@@ -167,20 +166,36 @@ public class OrderController {
         return "orderList";
     }
 
+    // OrderController.java
+
+// ... (생략)
+
     @GetMapping("/view/{id}")
     public ModelAndView viewOrder(@PathVariable(value = "id") Long id) {
         Order order = orderProService.get(id);
-        List<Book> listOfBooks = new ArrayList<Book>();
-        for (OrderItem orderItem : order.getOrderItems().values()) {
-            String bookId = orderItem.getBookId();
-            Book book = bookService.getBookById(bookId);
-            listOfBooks.add(book);
-        }
+
+        // 1. 필요한 모든 Book 객체를 조회하여 Map으로 변환합니다.
+        Map<String, Book> bookMap = order.getOrderItems().values().stream()
+                .map(orderItem -> bookService.getBookById(orderItem.getBookId()))
+                .collect(Collectors.toMap(Book::getBookId, Function.identity()));
+
         ModelAndView modelAndView = new ModelAndView("orderView");
         modelAndView.addObject("order", order);
-        modelAndView.addObject("bookList", listOfBooks);
+        modelAndView.addObject("bookMap", bookMap); // Map으로 전달
+
+        // 기존 listofBooks 관련 코드는 제거합니다.
+        // List<Book> listOfBooks = new ArrayList<Book>(); // 제거
+        // for (OrderItem orderItem : order.getOrderItems().values()) { // 제거
+        //    String bookId = orderItem.getBookId(); // 제거
+        //    Book book = bookService.getBookById(bookId); // 제거
+        //    listOfBooks.add(book); // 제거
+        // } // 제거
+        // modelAndView.addObject("bookList", listOfBooks); // 제거
+
         return modelAndView;
     }
+
+// ... (edit/{id} 메서드도 동일한 방식으로 수정 필요) ...
 
     @GetMapping("/edit/{id}")
     public ModelAndView showEditOrder(@PathVariable(value = "id") Long id) {
