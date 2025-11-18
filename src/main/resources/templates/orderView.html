@@ -11,9 +11,7 @@
 <body>
 <main>
     <div class="container py-4">
-
         <th:block th:replace="~{/module/header}"></th:block>
-
         <div class="p-5 mb-4 bg-body-tertiary rounded-3">
             <div class="container-fluid py-5">
                 <h1 class="display-5 fw-bold">주문 상세 정보</h1>
@@ -23,8 +21,6 @@
 
         <div class="row align-items-md-stretch">
             <div class="container col-md-10 py-5" style="background: #fafafe">
-
-                <!-- 배송 주소 -->
                 <div class="row">
                     <div class="col-md-6 py-3">
                         <b>배송 주소</b><br>
@@ -37,7 +33,6 @@
                     </div>
                 </div>
 
-                <!-- 청구 주소 -->
                 <div class="row">
                     <div class="col-md-6 py-3">
                         <address>
@@ -49,7 +44,6 @@
                         </address>
                     </div>
 
-                    <!-- 주문 상품 목록 -->
                     <div class="col-md-6 py-3">
                         <table class="table table-hover">
                             <thead>
@@ -61,32 +55,28 @@
                             </tr>
                             </thead>
                             <tbody>
-
                             <tr th:each="itemEntry : ${order.orderItems}">
                                 <th:block th:with="orderItem=${itemEntry.value},
                                                 book=${bookMap.get(orderItem.bookId)}">
-
                                     <td th:if="${book}">
                                         <em>[[${book.name}]]</em>
                                     </td>
                                     <td th:unless="${book}">
                                         <em>(도서정보 없음)</em>
                                     </td>
-
                                     <td class="text-center">[[${orderItem.quantity}]]</td>
-
                                     <td class="text-center" th:if="${book}">[[${book.unitPrice}]]</td>
                                     <td class="text-center" th:unless="${book}">N/A</td>
-
                                     <td class="text-center">[[${orderItem.totalPrice}]] 원</td>
                                 </th:block>
                             </tr>
-
                             </tbody>
                         </table>
                     </div>
                 </div>
-        <th:block th:replace="~{/module/footer}"></th:block>
+                <th:block th:replace="~{/module/footer}"></th:block>
+            </div>
+        </div>
     </div>
 </main>
 </body>
