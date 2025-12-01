@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/member")
+@RequestMapping(value = "/members")
 public class MemberController {
     @Autowired
     MemberService memberService;
@@ -24,7 +24,7 @@ public class MemberController {
 
     /*  회원가입 폼 출력 */
     @GetMapping(value = "/add")
-    public String RequestAddMemberForm(Model model) {
+    public String requestAddMemberForm(Model model) {
         model.addAttribute("memberFormDTO", new MemberFormDTO());
         return "/member/addMember";
     }
@@ -41,11 +41,11 @@ public class MemberController {
             model.addAttribute("errorMessage", e.getMessage());
             return "/member/addMember";
         }
-        return "redirect:/members";
+        return "redirect:/login";
     }
     /* 회원 수정 폼 */
     @GetMapping(value = "/update/{memberId}")
-    public String RequestUpdateMemberForm(@PathVariable("memberId") String memberId, Model model) {
+    public String requestUpdateMemberForm(@PathVariable("memberId") String memberId, Model model) {
         Member member = memberService.getMemberByMemberId(memberId);
         model.addAttribute("memberFormDTO", member);
         return "/member/updateMember";
@@ -67,7 +67,7 @@ public class MemberController {
     }
     /* 회원 삭제 */
     @GetMapping(value = "/delete/{memberId}")
-    public String DeleteMember(@PathVariable("memberId") String memberId) {
+    public String deleteMember(@PathVariable("memberId") String memberId) {
         memberService.deleteMember(memberId);
         return "redirect:/logout";
     }
