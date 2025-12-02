@@ -29,7 +29,7 @@ public class HomeController {
 
         Member member = memberService.getMemberByMemberId(userId);
 
-        HttpSession session = httpServletRequest.getSession(true);
+        HttpSession session = httpServletRequest.getSession();
         session.setAttribute("userLoginInfo", member);
         return "welcome";
     }

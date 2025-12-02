@@ -112,26 +112,33 @@ public class OrderController {
     }
 
     @PostMapping("/orderConfirmation")
-    public String requestConfirmationFinished(Model model) {
+    public String requestConfirmationFinished(Model model, HttpServletRequest request) {
+
         model.addAttribute("order", order);
+        // 1. 주문 저장
         orderProService.save(order);
+        // 2. 장바구니 삭제
+        String sessionId = request.getSession().getId();
+        Cart cart = cartService.read(sessionId);
+
+        if (cart != null) {
+            cart.getCartItems().clear();   // 내부 아이템 제거
+            cartService.delete(sessionId); // CartRepository에서 완전히 삭제
+        }
+
         return "redirect:/order/orderFinished";
     }
 
 
     @GetMapping("/orderFinished")
     public String requestFinished(HttpServletRequest request, Model model) {
-        // Long orderId=
         orderService.saveOrder(order);
 
-        //order.setOrderId(orderId);
         model.addAttribute("order", order);
 
-        HttpSession session = request.getSession(false);
-
-        if (session != null) {
-            session.invalidate();
-        }
+        // 주문 관련 정보만 초기화
+        order = null;
+        listofBooks = null;
 
         return "orderFinished";
     }
@@ -183,19 +190,10 @@ public class OrderController {
         modelAndView.addObject("order", order);
         modelAndView.addObject("bookMap", bookMap); // Map으로 전달
 
-        // 기존 listofBooks 관련 코드는 제거합니다.
-        // List<Book> listOfBooks = new ArrayList<Book>(); // 제거
-        // for (OrderItem orderItem : order.getOrderItems().values()) { // 제거
-        //    String bookId = orderItem.getBookId(); // 제거
-        //    Book book = bookService.getBookById(bookId); // 제거
-        //    listOfBooks.add(book); // 제거
-        // } // 제거
-        // modelAndView.addObject("bookList", listOfBooks); // 제거
-
         return modelAndView;
     }
 
-// ... (edit/{id} 메서드도 동일한 방식으로 수정 필요) ...
+
 
     @GetMapping("/edit/{id}")
     public ModelAndView showEditOrder(@PathVariable(value = "id") Long id) {
